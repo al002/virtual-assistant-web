@@ -1,5 +1,7 @@
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, useState } from "react";
+import { useRouter } from "next/router";
 import {
+  useToast,
   Box,
   FormControl,
   FormLabel,
@@ -8,38 +10,49 @@ import {
   Button,
   Heading,
   VStack,
-} from '@chakra-ui/react';
-import { login } from '@/services/auth';
+} from "@chakra-ui/react";
+import { login } from "@/services/auth";
 
 const LoginForm: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const toast = useToast();
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     // 在这里处理表单提交
     try {
-    const response = await login({
-      email,
-      password,
-    });
-    // 在这里处理登录成功，例如保存 token
-  } catch (error) {
-    // 在这里处理登录失败，例如显示错误信息
-  }
+      const response = await login({
+        email,
+        password,
+      });
+
+      if (response.success) {
+        router.replace("/chat");
+      } else {
+        toast({
+          status: "error",
+          title: response.message,
+        });
+      }
+      // 在这里处理登录成功，例如保存 token
+    } catch (error) {
+      // 在这里处理登录失败，例如显示错误信息
+    }
   };
 
   return (
     <VStack>
       <Heading marginBottom="1rem">Virtual Assistant</Heading>
       <Box
-        maxW={'320px'}
-        w={'full'}
-        boxShadow={'2xl'}
+        maxW={"320px"}
+        w={"full"}
+        boxShadow={"2xl"}
         borderWidth={1}
-        borderRadius={'md'}
+        borderRadius={"md"}
         p={6}
-        textAlign={'center'}
+        textAlign={"center"}
       >
         <form onSubmit={handleSubmit}>
           <Stack spacing={4}>
@@ -70,7 +83,7 @@ const LoginForm: React.FC = () => {
               colorScheme="teal"
               size="md"
               fontSize="md"
-              w={'full'}
+              w={"full"}
             >
               Login
             </Button>
@@ -82,4 +95,3 @@ const LoginForm: React.FC = () => {
 };
 
 export default LoginForm;
-

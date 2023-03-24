@@ -1,4 +1,5 @@
 import { HStack } from "@chakra-ui/react";
+import { ChatArea } from "./components/ChatArea";
 import { ConversationList } from "./components/ConversationList";
 import { IConversation } from "./components/ConversationList/types";
 
@@ -18,10 +19,11 @@ const conversations: IConversation[] = [
 ];
 
 const ChatPage = () => {
+  
   return (
     <HStack h="100vh">
       <ConversationList conversations={conversations} />
-      {/* 聊天界面组件将放在这里 */}
+      <ChatArea />
     </HStack>
   );
 };

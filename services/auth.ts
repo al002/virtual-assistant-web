@@ -7,11 +7,12 @@ interface LoginPayload {
 }
 
 interface LoginResponse {
-  token: string;
+  success: boolean;
+  message: string;
 }
 
 export const login = async (payload: LoginPayload): Promise<LoginResponse> => {
-  const response = await http.post<LoginResponse>('/auth/login', payload);
+  const response = await http.post<LoginResponse>('/api/v1/auth/login', payload);
   return response.data;
 };
 

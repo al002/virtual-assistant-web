@@ -2,8 +2,11 @@
 import axios, { AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 
 const http: AxiosInstance = axios.create({
-  baseURL: process.env.API_BASE_URL, // 从环境变量中获取 API 基本 URL
+  baseURL: '/api/v1', // 从环境变量中获取 API 基本 URL
   timeout: 10000, // 设置请求超时时间
+  withCredentials: true,
+  xsrfCookieName: 'csrftoken',
+  xsrfHeaderName: 'X-CSRFTOKEN',
 });
 
 http.interceptors.request.use(

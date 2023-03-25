@@ -47,7 +47,7 @@ export const MessageInput = ({ onSendMessage }: MessageInputProps) => {
         }}
       />
       <Button
-        colorScheme="blue"
+        colorScheme="teal"
         onClick={sendMessage}
         disabled={!inputValue.trim()}
       >

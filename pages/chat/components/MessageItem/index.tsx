@@ -1,6 +1,6 @@
 // components/MessageItem.tsx
 import { HStack, Text, Avatar } from '@chakra-ui/react';
-import { Message } from '@/store/chat/types';
+import { Message } from '@/store/conversation/types';
 
 type MessageItemProps = {
   message: Message;

@@ -1,6 +1,6 @@
 import { VStack } from '@chakra-ui/react';
 import { css } from '@emotion/react';
-import { Message } from '@/store/chat/types';
+import { Message } from '@/store/conversation/types';
 import { MessageItem } from '../MessageItem';
 
 type MessageListProps = {

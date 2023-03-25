@@ -15,7 +15,7 @@ import { login } from "@/services/auth";
 
 const LoginForm: React.FC = () => {
   const router = useRouter();
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const toast = useToast();
 
@@ -24,7 +24,7 @@ const LoginForm: React.FC = () => {
     // 在这里处理表单提交
     try {
       const response = await login({
-        email,
+        username,
         password,
       });
 
@@ -57,14 +57,14 @@ const LoginForm: React.FC = () => {
         <form onSubmit={handleSubmit}>
           <Stack spacing={4}>
             <FormControl id="email">
-              <FormLabel>Email address</FormLabel>
+              <FormLabel>Username</FormLabel>
               <Input
-                type="email"
+                // type="email"
                 autoComplete="off"
                 required
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter your username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
               />
             </FormControl>
             <FormControl id="password">

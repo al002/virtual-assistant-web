@@ -1,27 +1,52 @@
 // ConversationList.tsx
 
-import React from "react";
+import React, { useEffect } from "react";
 import { Box, Button, Flex, VStack } from "@chakra-ui/react";
+import { AddIcon } from "@chakra-ui/icons";
 import { ConversationItem } from "./ConversationItem";
-import { IConversation } from "./types";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/store/store";
-import { chatActions } from "@/store/chat/chatSlice";
+import { useAppDispatch, useAppSelector } from "@/store/store";
+import {
+  conversationActions,
+  createNewConversation,
+  getConversationListAction,
+} from "@/store/conversation/conversationSlice";
+import { getActiveConversationId, getConversationList } from "@/store/conversation/conversationSelector";
 
-interface Props {
-  conversations: IConversation[];
-}
+interface Props {}
 
-export const ConversationList: React.FC<Props> = ({ conversations }) => {
-  const dispatch = useDispatch();
-  const activeConversationId = useSelector(
-    (state: RootState) => state.chat.activeConversationId
-  );
+export const ConversationList: React.FC<Props> = () => {
+  const dispatch = useAppDispatch();
+  const activeConversationId = useAppSelector(getActiveConversationId);
+  const conversations = useAppSelector(getConversationList);
+
+  const getConversations = () => {
+    dispatch(getConversationListAction());
+  };
+
+  const createNewChatSession = async () => {
+    const titles = conversations.map((c) => c.title);
+    let title;
+    const untitledIndex = titles.findIndex((t) => t.indexOf("Untitled chat") > -1);
+    if (untitledIndex > -1) {
+      const i = titles[untitledIndex].split(' ')?.[2] ?? '1';
+      title = `Untitled chat ${Number(i) + 1}`
+    } else {
+      title = "Untitled chat 1"
+    }
+    dispatch(
+      createNewConversation({
+        title,
+      })
+    );
+  };
 
   const handleNewConversation = () => {
-    // 在这里处理创建新会话的逻辑
-    console.log("New conversation");
+    createNewChatSession();
   };
+
+  useEffect(() => {
+    getConversations();
+  }, []);
 
   return (
     <Flex direction="column" flexBasis="300px" h="full">
@@ -42,7 +67,9 @@ export const ConversationList: React.FC<Props> = ({ conversations }) => {
             conversation={conversation}
             isActive={conversation.id === activeConversationId}
             onClick={() =>
-              dispatch(chatActions.setActiveConversationId(conversation.id))
+              dispatch(
+                conversationActions.setActiveConversationId(conversation.id)
+              )
             }
           />
         ))}
@@ -51,8 +78,9 @@ export const ConversationList: React.FC<Props> = ({ conversations }) => {
         <Button
           w="full"
           onClick={handleNewConversation}
-          colorScheme="blue"
+          colorScheme="cyan"
           variant="ghost"
+          leftIcon={<AddIcon />}
         >
           New Conversation
         </Button>

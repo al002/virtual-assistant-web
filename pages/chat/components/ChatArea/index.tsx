@@ -1,29 +1,47 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { Flex, useColorModeValue } from '@chakra-ui/react';
 import { MessageList } from '../MessageList';
 import { MessageInput } from '../MessageInput';
-import { createSocket } from '@/services/socket';
+import { useAppDispatch, useAppSelector } from '@/store/store';
+import { getActiveConversationId } from '@/store/conversation/conversationSelector';
+import { chatMessageActions, getChatMessagesAction } from '@/store/chatMessage/chatMessageSlice';
+import { getCurrentChatMessages } from '@/store/chatMessage/chatMessageSelector';
 
 export const ChatArea = () => {
-  const socket = useRef<WebSocket | null>(null);
-  useEffect(() => {
-    if (!socket.current) {
-      socket.current = createSocket();
-    }
-  }, [])
+  const dispatch = useAppDispatch();
   const bgColor = useColorModeValue('gray.50', 'gray.800');
+  const activeConversationId = useAppSelector(getActiveConversationId);
+  const messages = useAppSelector(getCurrentChatMessages);
+
+  useEffect(() => {
+    dispatch(chatMessageActions.connectWebsocket());
+  }, []);
+
+  useEffect(() => {
+    if (activeConversationId) {
+      dispatch(getChatMessagesAction(activeConversationId));
+    }
+  }, [activeConversationId, dispatch]);
 
   const handleSendMessage = (content: string) => {
-    if (socket.current) {
-      socket.current.send(JSON.stringify({
-        message: content
+    if (activeConversationId) {
+      dispatch(chatMessageActions.appendHumanMessage({
+        conversationId: activeConversationId,
+        message: content,
+      }));
+      dispatch(chatMessageActions.appendAIMessage({
+        conversationId: activeConversationId,
+      }));
+      dispatch(chatMessageActions.sendMessage({
+        message: content,
+        conversation_id: activeConversationId,
       }))
     }
   };
 
   return (
     <Flex direction="column" h="full" w="full" bg={bgColor}>
-      <MessageList messages={[]} />
+      <MessageList messages={messages} />
       <MessageInput onSendMessage={handleSendMessage} />
     </Flex>
   );

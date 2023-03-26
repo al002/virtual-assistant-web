@@ -1,13 +1,26 @@
+import { useEffect, useRef } from 'react';
 import { VStack } from '@chakra-ui/react';
 import { css } from '@emotion/react';
-import { Message } from '@/store/conversation/types';
+import { IChatMessage } from '@/services/chatMessage';
 import { MessageItem } from '../MessageItem';
 
 type MessageListProps = {
-  messages: Message[];
+  messages: IChatMessage[];
 };
 
 export const MessageList = ({ messages }: MessageListProps) => {
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+
+  const scrollToBottom = () => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'auto' });
+    }
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
   return (
     <VStack
       spacing={4}
@@ -31,6 +44,7 @@ export const MessageList = ({ messages }: MessageListProps) => {
       {messages.map((message) => (
         <MessageItem key={message.id} message={message} />
       ))}
+      <div ref={messagesEndRef} />
     </VStack>
   );
 };

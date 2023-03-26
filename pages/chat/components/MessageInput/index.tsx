@@ -19,6 +19,16 @@ export const MessageInput = ({ onSendMessage }: MessageInputProps) => {
     setInputValue('');
   };
 
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault()
+      if (inputValue.trim()) {
+        onSendMessage(inputValue.trim())
+        setInputValue('')
+      }
+    }
+  }
+
   useEffect(() => {
     if (inputRef.current) {
       inputRef.current.style.height = '0px';
@@ -32,7 +42,6 @@ export const MessageInput = ({ onSendMessage }: MessageInputProps) => {
         as="textarea"
         ref={inputRef}
         value={inputValue}
-        onChange={handleInputChange}
         placeholder="Type your message here..."
         variant="outline"
         w="full"
@@ -45,6 +54,8 @@ export const MessageInput = ({ onSendMessage }: MessageInputProps) => {
         _focus={{
           borderColor: 'blue.500',
         }}
+        onChange={handleInputChange}
+        onKeyDown={handleKeyPress}
       />
       <Button
         colorScheme="teal"

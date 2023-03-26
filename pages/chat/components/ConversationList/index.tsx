@@ -11,11 +11,13 @@ import {
   getConversationListAction,
 } from "@/store/conversation/conversationSlice";
 import { getActiveConversationId, getConversationList } from "@/store/conversation/conversationSelector";
+import { useRouter } from "next/router";
 
 interface Props {}
 
 export const ConversationList: React.FC<Props> = () => {
   const dispatch = useAppDispatch();
+  const router = useRouter();
   const activeConversationId = useAppSelector(getActiveConversationId);
   const conversations = useAppSelector(getConversationList);
 
@@ -44,6 +46,12 @@ export const ConversationList: React.FC<Props> = () => {
     createNewChatSession();
   };
 
+  const handleSelectConversation = (conversationId: string) => {
+    dispatch(
+      conversationActions.setActiveConversationId(conversationId)
+    );
+  }
+
   useEffect(() => {
     getConversations();
   }, []);
@@ -66,11 +74,7 @@ export const ConversationList: React.FC<Props> = () => {
             key={conversation.id}
             conversation={conversation}
             isActive={conversation.id === activeConversationId}
-            onClick={() =>
-              dispatch(
-                conversationActions.setActiveConversationId(conversation.id)
-              )
-            }
+            onClick={() => handleSelectConversation(conversation.id)}
           />
         ))}
       </VStack>

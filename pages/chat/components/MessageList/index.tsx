@@ -1,8 +1,8 @@
-import { useEffect, useRef } from 'react';
-import { VStack } from '@chakra-ui/react';
-import { css } from '@emotion/react';
-import { IChatMessage } from '@/services/chatMessage';
-import { MessageItem } from '../MessageItem';
+import { useEffect, useRef } from "react";
+import { VStack } from "@chakra-ui/react";
+import { css } from "@emotion/react";
+import { IChatMessage } from "@/services/chatMessage";
+import { MessageItem } from "../MessageItem";
 
 type MessageListProps = {
   messages: IChatMessage[];
@@ -13,7 +13,7 @@ export const MessageList = ({ messages }: MessageListProps) => {
 
   const scrollToBottom = () => {
     if (messagesEndRef.current) {
-      messagesEndRef.current?.scrollIntoView({ behavior: 'auto' });
+      messagesEndRef.current?.scrollIntoView({ behavior: "auto" });
     }
   };
 
@@ -23,11 +23,9 @@ export const MessageList = ({ messages }: MessageListProps) => {
 
   return (
     <VStack
-      spacing={4}
-      px={6}
-      py={4}
-      flexGrow={1}
-      overflowY="auto"
+      align="center"
+      maxH="80vh"
+      overflowY="scroll"
       css={css`
         ::-webkit-scrollbar {
           width: 8px;

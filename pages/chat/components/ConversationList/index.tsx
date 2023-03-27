@@ -57,7 +57,7 @@ export const ConversationList: React.FC<Props> = () => {
   }, []);
 
   return (
-    <Flex direction="column" flexBasis="300px" h="full">
+    <Flex direction="column" flexBasis="300px" h="full" borderRightWidth={1} borderColor="gray.200">
       <VStack
         as={Box}
         alignItems="stretch"
@@ -66,8 +66,6 @@ export const ConversationList: React.FC<Props> = () => {
         h="100%"
         overflowY="auto"
         flexGrow={1}
-        borderRightWidth={1}
-        borderColor="gray.200"
       >
         {conversations.map((conversation) => (
           <ConversationItem

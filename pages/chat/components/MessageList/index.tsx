@@ -24,7 +24,7 @@ export const MessageList = ({ messages }: MessageListProps) => {
   return (
     <VStack
       align="center"
-      maxH="80vh"
+      flex={1}
       overflowY="scroll"
       css={css`
         ::-webkit-scrollbar {

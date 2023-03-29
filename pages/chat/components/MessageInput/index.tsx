@@ -37,7 +37,7 @@ export const MessageInput = ({ onSendMessage }: MessageInputProps) => {
   }, [inputValue]);
 
   return (
-    <HStack p={4} borderTop="1px" borderColor="gray.200" spacing={4}>
+    <HStack flexShrink={0} p={4} borderTop="1px" borderColor="gray.200" spacing={4}>
       <Input
         as="textarea"
         ref={inputRef}

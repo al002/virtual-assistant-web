@@ -16,7 +16,20 @@ export const MessageItem = ({ message }: MessageItemProps) => {
     <Box w="full" bg={message.message_role === "Human" ? "white" : "zinc.200"}>
       <Flex maxW="42rem" py={6} gap={6} margin="auto">
         <Avatar size="sm" />
-        <Box>
+        <Box css={`
+          & p {
+            margin-bottom: 1.25rem;
+            margin-top: 1.25rem;
+
+            &:first-child {
+              margin-top: 0;
+            }
+
+            &:last-child {
+              margin-bottom: 0;
+            }
+          }
+        `}>
           <ReactMarkdown
             components={{
               code({ inline, className, children, ...props }) {

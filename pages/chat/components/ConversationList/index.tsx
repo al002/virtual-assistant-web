@@ -80,8 +80,9 @@ export const ConversationList: React.FC<Props> = () => {
         <Button
           w="full"
           onClick={handleNewConversation}
-          colorScheme="cyan"
+          colorScheme="teal"
           variant="ghost"
+          borderRadius={0}
           leftIcon={<AddIcon />}
         >
           New Conversation

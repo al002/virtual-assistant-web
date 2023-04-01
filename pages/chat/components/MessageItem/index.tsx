@@ -28,6 +28,7 @@ export const MessageItem = ({ message }: MessageItemProps) => {
             }
           `}
           wordBreak="break-all"
+          maxW="full"
         >
           <ReactMarkdown
             components={{

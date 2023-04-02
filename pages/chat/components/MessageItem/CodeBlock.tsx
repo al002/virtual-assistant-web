@@ -25,7 +25,11 @@ export const CodeBlock: React.FC<ICodeBlockProps> = ({ language, value }) => {
 
   return (
     <Box position="relative" mb={4}>
-      <Flex w="100%" zIndex="1" bg="#282828" px="2" py="1" alignItems="center">
+      <Flex w="100%" zIndex="1" bg="#282828" px="2" py="1" alignItems="center" css={`
+        & > p {
+          margin-bottom: 0;
+        }
+      `}>
         <Text color="white" fontSize="sm" flex="1">
           {detectedLanguage}
         </Text>
